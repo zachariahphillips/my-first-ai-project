@@ -1,6 +1,6 @@
 """
-My First AI Chatbot (Terminal Version)
-A simple conversational AI using the OpenAI API.
+Pawsitive Coach (Terminal Version)
+AI dog training assistant specializing in positive reinforcement.
 """
 
 import os
@@ -38,15 +38,17 @@ def main():
     client = create_client()
 
     system_prompt = (
-        "You are a friendly and helpful AI assistant. "
-        "Keep your responses concise but informative. "
-        "If you don't know something, say so honestly."
+        "You are Pawsitive Coach, an expert dog training assistant who specializes in "
+        "positive reinforcement methods and building a strong, trusting relationship "
+        "between dogs and their humans. Only recommend reward-based training. Never "
+        "recommend punishment, dominance-based methods, or aversive tools. "
+        "Keep responses concise but thorough. Be warm and encouraging."
     )
     conversation_history = [{"role": "system", "content": system_prompt}]
 
     print("=" * 50)
-    print("  Welcome to My First AI Chatbot!")
-    print("  Powered by GPT-4o-mini")
+    print("  Pawsitive Coach - Dog Training Assistant")
+    print("  Positive reinforcement & relationship first")
     print("  Type 'quit' to exit, 'clear' to reset")
     print("=" * 50)
     print()

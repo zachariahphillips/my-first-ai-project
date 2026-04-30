@@ -1,14 +1,25 @@
-# My First AI Project
+# Pawsitive Coach - AI Dog Training Assistant
 
-A beginner-friendly AI chatbot with both a terminal and web interface, powered by OpenAI's GPT-4o-mini.
+An AI-powered dog training coach that specializes in **positive reinforcement** methods and building a strong, trusting relationship between you and your dog.
 
-## What this does
+## Philosophy
 
-Talk to an AI assistant through either:
-- **Web app** (`app.py`) — A modern chat interface in your browser
-- **Terminal** (`chat.py`) — A simple command-line version
+Pawsitive Coach only recommends reward-based training. It will never suggest punishment, dominance-based methods, or aversive tools (prong collars, shock collars, etc.). The focus is on:
 
-The AI remembers your conversation history and can answer questions, write creatively, explain concepts, and more.
+- Understanding *why* your dog behaves a certain way
+- Building trust and communication
+- Celebrating small wins and encouraging patience
+- Treating every dog as an individual
+
+## What you can ask about
+
+- Puppy training (biting, potty training, socialization)
+- Leash manners and loose-leash walking
+- Fearful or anxious dogs
+- Crate training
+- Basic commands (sit, stay, come, leave it)
+- Behavior problems (jumping, barking, resource guarding)
+- Rescue dog adjustment
 
 ## Quick Start
 
@@ -24,7 +35,7 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Then edit `.env` and replace `your-key-here` with your real OpenAI API key.
+Edit `.env` and replace `your-key-here` with your OpenAI API key.
 Get a key at: https://platform.openai.com/api-keys
 
 ### 3. Run the web app
@@ -46,6 +57,10 @@ python3 chat.py
 Uses GPT-4o-mini (~$0.15/million input tokens, ~$0.60/million output tokens).
 For casual use, expect to spend pennies per session.
 
+## Disclaimer
+
+This is an AI assistant, not a substitute for professional help. For serious behavioral issues (aggression, severe anxiety, etc.), please consult a certified professional dog trainer (CPDT-KA) or veterinary behaviorist.
+
 ## Project Structure
 
 ```
@@ -57,12 +72,5 @@ my-first-ai-project/
 ├── .gitignore          # Keeps secrets out of GitHub
 ├── templates/
 │   └── index.html      # Chat UI
-└── README.md           # You're reading this!
+└── README.md
 ```
-
-## Learning Resources
-
-- [OpenAI API Docs](https://platform.openai.com/docs)
-- [Flask Quickstart](https://flask.palletsprojects.com/en/stable/quickstart/)
-- [Python Beginner Guide](https://wiki.python.org/moin/BeginnersGuide)
-- [Git Handbook](https://guides.github.com/introduction/git-handbook/)

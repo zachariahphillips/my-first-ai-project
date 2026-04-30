@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My AI Chatbot</title>
+    <title>Pawsitive Coach - AI Dog Training Assistant</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0f172a;
+            background: #1a1207;
             color: #e2e8f0;
             height: 100vh;
             display: flex;
@@ -17,32 +17,32 @@
         }
 
         header {
-            background: #1e293b;
+            background: #292011;
             padding: 16px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid #334155;
+            border-bottom: 1px solid #4a3820;
         }
 
         header h1 {
             font-size: 18px;
             font-weight: 600;
-            color: #f1f5f9;
+            color: #f5e6d0;
         }
 
         header span {
             font-size: 12px;
-            color: #64748b;
-            background: #334155;
+            color: #a08060;
+            background: #3d2e1a;
             padding: 4px 10px;
             border-radius: 12px;
         }
 
         .clear-btn {
             background: none;
-            border: 1px solid #475569;
-            color: #94a3b8;
+            border: 1px solid #5a4530;
+            color: #c4a882;
             padding: 6px 14px;
             border-radius: 8px;
             cursor: pointer;
@@ -51,8 +51,8 @@
         }
 
         .clear-btn:hover {
-            background: #334155;
-            color: #e2e8f0;
+            background: #3d2e1a;
+            color: #f5e6d0;
         }
 
         #chat-container {
@@ -72,12 +72,12 @@
 
         .welcome h2 {
             font-size: 24px;
-            color: #f1f5f9;
+            color: #f5e6d0;
             margin-bottom: 8px;
         }
 
         .welcome p {
-            color: #64748b;
+            color: #a08060;
             font-size: 14px;
             line-height: 1.6;
         }
@@ -91,9 +91,9 @@
         }
 
         .suggestion {
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: #94a3b8;
+            background: #292011;
+            border: 1px solid #4a3820;
+            color: #c4a882;
             padding: 8px 14px;
             border-radius: 10px;
             cursor: pointer;
@@ -102,9 +102,9 @@
         }
 
         .suggestion:hover {
-            background: #334155;
-            color: #e2e8f0;
-            border-color: #475569;
+            background: #3d2e1a;
+            color: #f5e6d0;
+            border-color: #5a4530;
         }
 
         .message {
@@ -134,11 +134,11 @@
         }
 
         .message.user .avatar {
-            background: #3b82f6;
+            background: #b45309;
         }
 
         .message.assistant .avatar {
-            background: #10b981;
+            background: #65a30d;
         }
 
         .bubble {
@@ -151,20 +151,20 @@
         }
 
         .message.user .bubble {
-            background: #3b82f6;
+            background: #b45309;
             color: white;
             border-bottom-right-radius: 4px;
         }
 
         .message.assistant .bubble {
-            background: #1e293b;
-            color: #e2e8f0;
-            border: 1px solid #334155;
+            background: #292011;
+            color: #f5e6d0;
+            border: 1px solid #4a3820;
             border-bottom-left-radius: 4px;
         }
 
         .typing .bubble {
-            color: #64748b;
+            color: #a08060;
         }
 
         .typing .bubble::after {
@@ -180,8 +180,8 @@
 
         #input-area {
             padding: 16px 24px;
-            background: #1e293b;
-            border-top: 1px solid #334155;
+            background: #292011;
+            border-top: 1px solid #4a3820;
         }
 
         #input-form {
@@ -193,9 +193,9 @@
 
         #message-input {
             flex: 1;
-            background: #0f172a;
-            border: 1px solid #334155;
-            color: #e2e8f0;
+            background: #1a1207;
+            border: 1px solid #4a3820;
+            color: #f5e6d0;
             padding: 12px 16px;
             border-radius: 12px;
             font-size: 14px;
@@ -205,15 +205,15 @@
         }
 
         #message-input:focus {
-            border-color: #3b82f6;
+            border-color: #b45309;
         }
 
         #message-input::placeholder {
-            color: #475569;
+            color: #6b5535;
         }
 
         #send-btn {
-            background: #3b82f6;
+            background: #b45309;
             color: white;
             border: none;
             padding: 12px 20px;
@@ -224,8 +224,8 @@
             transition: background 0.2s;
         }
 
-        #send-btn:hover { background: #2563eb; }
-        #send-btn:disabled { background: #1e40af; opacity: 0.5; cursor: not-allowed; }
+        #send-btn:hover { background: #92400e; }
+        #send-btn:disabled { background: #78350f; opacity: 0.5; cursor: not-allowed; }
 
         .error {
             background: #7f1d1d;
@@ -236,37 +236,47 @@
             font-size: 13px;
             max-width: 720px;
         }
+
+        .disclaimer {
+            text-align: center;
+            font-size: 11px;
+            color: #6b5535;
+            padding: 4px 24px 8px;
+            background: #292011;
+        }
     </style>
 </head>
 <body>
     <header>
         <div>
-            <h1>My AI Chatbot</h1>
+            <h1>Pawsitive Coach</h1>
         </div>
         <div style="display: flex; align-items: center; gap: 12px;">
-            <span>GPT-4o-mini</span>
+            <span>Positive Reinforcement Only</span>
             <button class="clear-btn" onclick="clearChat()">New Chat</button>
         </div>
     </header>
 
     <div id="chat-container">
         <div class="welcome" id="welcome">
-            <h2>Hello! I'm your AI assistant.</h2>
-            <p>Ask me anything — I'm powered by GPT-4o-mini. Try one of these to get started:</p>
+            <h2>Hi there! I'm your dog training coach.</h2>
+            <p>I specialize in positive reinforcement training and building a strong bond with your pup. Ask me anything about training, behavior, or dog care!</p>
             <div class="suggestions">
-                <div class="suggestion" onclick="sendSuggestion(this)">Explain APIs like I'm 5</div>
-                <div class="suggestion" onclick="sendSuggestion(this)">Write a haiku about coding</div>
-                <div class="suggestion" onclick="sendSuggestion(this)">What should I learn first in Python?</div>
+                <div class="suggestion" onclick="sendSuggestion(this)">My puppy keeps biting my hands during play</div>
+                <div class="suggestion" onclick="sendSuggestion(this)">How do I teach my dog to walk nicely on a leash?</div>
+                <div class="suggestion" onclick="sendSuggestion(this)">My rescue dog is afraid of strangers</div>
+                <div class="suggestion" onclick="sendSuggestion(this)">What's the best way to crate train?</div>
             </div>
         </div>
     </div>
 
     <div id="input-area">
         <form id="input-form" onsubmit="sendMessage(event)">
-            <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off" />
+            <input type="text" id="message-input" placeholder="Ask about training, behavior, or your pup..." autocomplete="off" />
             <button type="submit" id="send-btn">Send</button>
         </form>
     </div>
+    <div class="disclaimer">AI-generated advice. For serious behavioral issues, consult a certified professional trainer (CPDT-KA) or veterinary behaviorist.</div>
 
     <script>
         const chatContainer = document.getElementById('chat-container');
@@ -282,7 +292,7 @@
 
             const avatar = document.createElement('div');
             avatar.className = 'avatar';
-            avatar.textContent = role === 'user' ? 'Y' : 'AI';
+            avatar.textContent = role === 'user' ? 'Me' : '🐕';
 
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
@@ -303,7 +313,7 @@
 
             const avatar = document.createElement('div');
             avatar.className = 'avatar';
-            avatar.textContent = 'AI';
+            avatar.textContent = '🐕';
 
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
