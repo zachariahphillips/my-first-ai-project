@@ -960,6 +960,7 @@
 
         function showWelcome() {
             currentChatId = null;
+            closeProfilePage();
             chatContainer.innerHTML = '';
             chatContainer.appendChild(welcome);
             welcome.style.display = '';
@@ -983,6 +984,7 @@
             const chat = allChats.find(c => c.id === id);
             if (!chat) return;
             currentChatId = id;
+            closeProfilePage();
             chatContainer.innerHTML = '';
             welcome.style.display = 'none';
 
@@ -1203,8 +1205,8 @@
         function closeProfilePage() {
             profilePage.style.display = 'none';
             chatContainer.style.display = 'flex';
-            document.getElementById('input-area').style.display = 'block';
-            document.querySelector('.disclaimer').style.display = 'block';
+            document.getElementById('input-area').style.display = '';
+            document.querySelector('.disclaimer').style.display = '';
         }
 
         function saveDogProfile() {
@@ -1225,7 +1227,10 @@
 
             const saved = document.getElementById('form-saved');
             saved.style.display = 'inline-flex';
-            setTimeout(() => { saved.style.display = 'none'; }, 2000);
+            setTimeout(() => {
+                saved.style.display = 'none';
+                closeProfilePage();
+            }, 800);
         }
 
         function sendDogProfileToServer() {
