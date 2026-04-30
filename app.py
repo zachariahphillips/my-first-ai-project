@@ -90,5 +90,17 @@ def clear():
     return jsonify({"status": "cleared"})
 
 
+@app.route("/restore", methods=["POST"])
+def restore():
+    messages = request.json.get("messages", [])
+    session["conversation"] = [
+        {"role": m["role"], "content": m["content"]}
+        for m in messages
+        if m.get("role") in ("user", "assistant")
+    ]
+    session.modified = True
+    return jsonify({"status": "restored"})
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

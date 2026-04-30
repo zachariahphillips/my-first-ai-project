@@ -663,7 +663,8 @@
                 const item = document.createElement('div');
                 item.className = 'chat-item' + (chat.id === currentChatId ? ' active' : '');
                 item.onclick = (e) => {
-                    if (e.target.classList.contains('chat-item-delete') || e.target.tagName === 'INPUT') return;
+                    if (e.target.classList.contains('chat-item-delete')) return;
+                    if (e.target.tagName === 'INPUT' && !e.target.readOnly) return;
                     loadChat(chat.id);
                 };
 
@@ -671,7 +672,7 @@
                 title.className = 'chat-item-title';
                 title.value = chat.title;
                 title.readOnly = true;
-                title.ondblclick = () => { title.readOnly = false; title.focus(); title.select(); };
+                title.ondblclick = (e) => { e.stopPropagation(); title.readOnly = false; title.focus(); title.select(); };
                 title.onblur = () => { title.readOnly = true; renameChat(chat.id, title.value); };
                 title.onkeydown = (e) => { if (e.key === 'Enter') { title.blur(); } };
 
@@ -735,25 +736,21 @@
             return chat;
         }
 
-        function loadChat(id) {
+        async function loadChat(id) {
             const chat = allChats.find(c => c.id === id);
             if (!chat) return;
             currentChatId = id;
             chatContainer.innerHTML = '';
             welcome.style.display = 'none';
 
-            fetch('/clear', { method: 'POST' }).then(() => {
-                chat.messages.forEach(m => {
-                    renderMessageBubble(m.role, m.content, m.time);
-                });
+            chat.messages.forEach(m => {
+                renderMessageBubble(m.role, m.content, m.time);
+            });
 
-                const replayPromises = chat.messages.map(m =>
-                    fetch('/chat', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ message: '__replay__' })
-                    })
-                );
+            await fetch('/restore', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ messages: chat.messages.map(m => ({ role: m.role, content: m.content })) })
             });
 
             renderSidebar();
