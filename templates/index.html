@@ -32,6 +32,29 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .back-btn {
+            display: none;
+            background: white;
+            border: 2px solid #e8ddd0;
+            color: #8b7355;
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: inherit;
+            transition: all 0.2s;
+            margin-right: 4px;
+        }
+
+        .back-btn:hover {
+            background: #fef3c7;
+            border-color: #d4a843;
+            color: #92400e;
         }
 
         .header-logo {
@@ -152,6 +175,10 @@
             gap: 10px;
             max-width: 700px;
             animation: fadeIn 0.3s ease;
+        }
+
+        .message.assistant {
+            max-width: 85%;
         }
 
         @keyframes fadeIn {
@@ -316,9 +343,12 @@
 </head>
 <body>
     <header>
-        <div class="header-left">
-            <img src="/static/logo.png" alt="Pawsitive Coach" class="header-logo">
-            <h1>Pawsitive <span>Coach</span></h1>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <button class="back-btn" id="back-btn" onclick="goHome()">&#8592; Back</button>
+            <a class="header-left" onclick="goHome()">
+                <img src="/static/logo.png" alt="Pawsitive Coach" class="header-logo">
+                <h1>Pawsitive <span>Coach</span></h1>
+            </a>
         </div>
         <div style="display: flex; align-items: center; gap: 12px;">
             <span class="badge">POSITIVE REINFORCEMENT</span>
@@ -353,9 +383,21 @@
         const messageInput = document.getElementById('message-input');
         const sendBtn = document.getElementById('send-btn');
         const welcome = document.getElementById('welcome');
+        const backBtn = document.getElementById('back-btn');
+        let inChat = false;
+
+        function showChatMode() {
+            inChat = true;
+            backBtn.style.display = 'inline-block';
+        }
+
+        function goHome() {
+            window.location.href = '/';
+        }
 
         function addMessage(role, text) {
             if (welcome) welcome.style.display = 'none';
+            if (!inChat) showChatMode();
 
             const msg = document.createElement('div');
             msg.className = `message ${role}`;
