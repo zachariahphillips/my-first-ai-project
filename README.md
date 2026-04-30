@@ -1,44 +1,68 @@
 # My First AI Project
 
-A beginner-friendly Python project to explore AI development using the OpenAI API.
+A beginner-friendly AI chatbot with both a terminal and web interface, powered by OpenAI's GPT-4o-mini.
 
 ## What this does
 
-This is a simple command-line chatbot that uses OpenAI's GPT-4o-mini model to have conversations.
-You type a message, the AI responds, and it remembers the conversation history.
+Talk to an AI assistant through either:
+- **Web app** (`app.py`) — A modern chat interface in your browser
+- **Terminal** (`chat.py`) — A simple command-line version
 
-GPT-4o-mini is OpenAI's most cost-effective model — great for learning and experimenting.
+The AI remembers your conversation history and can answer questions, write creatively, explain concepts, and more.
 
-## Setup
+## Quick Start
 
-1. Install Python dependencies:
-   ```bash
-   pip3 install -r requirements.txt
-   ```
+### 1. Install dependencies
 
-2. Get an OpenAI API key:
-   - Go to https://platform.openai.com/signup
-   - Create an account and add a payment method
-   - Go to https://platform.openai.com/api-keys
-   - Click "Create new secret key" and copy it
+```bash
+pip install -r requirements.txt
+```
 
-3. Set your API key:
-   ```bash
-   export OPENAI_API_KEY="your-key-here"
-   ```
+### 2. Set up your API key
 
-4. Run the chatbot:
-   ```bash
-   python3 chat.py
-   ```
+```bash
+cp .env.example .env
+```
+
+Then edit `.env` and replace `your-key-here` with your real OpenAI API key.
+Get a key at: https://platform.openai.com/api-keys
+
+### 3. Run the web app
+
+```bash
+python3 app.py
+```
+
+Open http://localhost:5000 in your browser.
+
+### 3b. Or run the terminal version
+
+```bash
+python3 chat.py
+```
 
 ## Cost
 
-This project uses GPT-4o-mini, which costs ~$0.15 per million input tokens and ~$0.60 per million output tokens. For casual learning and experimentation, expect to spend pennies per session.
+Uses GPT-4o-mini (~$0.15/million input tokens, ~$0.60/million output tokens).
+For casual use, expect to spend pennies per session.
+
+## Project Structure
+
+```
+my-first-ai-project/
+├── app.py              # Web app (Flask)
+├── chat.py             # Terminal chatbot
+├── requirements.txt    # Python dependencies
+├── .env.example        # Template for your API key
+├── .gitignore          # Keeps secrets out of GitHub
+├── templates/
+│   └── index.html      # Chat UI
+└── README.md           # You're reading this!
+```
 
 ## Learning Resources
 
 - [OpenAI API Docs](https://platform.openai.com/docs)
-- [OpenAI Cookbook (examples)](https://cookbook.openai.com/)
+- [Flask Quickstart](https://flask.palletsprojects.com/en/stable/quickstart/)
 - [Python Beginner Guide](https://wiki.python.org/moin/BeginnersGuide)
 - [Git Handbook](https://guides.github.com/introduction/git-handbook/)

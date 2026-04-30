@@ -1,20 +1,24 @@
 """
-My First AI Chatbot
+My First AI Chatbot (Terminal Version)
 A simple conversational AI using the OpenAI API.
 """
 
 import os
 import sys
 
+from dotenv import load_dotenv
 from openai import OpenAI
+
+load_dotenv()
 
 
 def create_client():
     api_key = os.environ.get("OPENAI_API_KEY")
     if not api_key:
         print("Error: No API key found!")
-        print("Run this command first, replacing 'your-key' with your real key:")
-        print('  export OPENAI_API_KEY="your-key"')
+        print("Create a .env file with your key:")
+        print("  cp .env.example .env")
+        print("  # Then edit .env and paste your real key")
         sys.exit(1)
     return OpenAI(api_key=api_key)
 
