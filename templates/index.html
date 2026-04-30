@@ -282,6 +282,10 @@
             font-weight: 600;
             outline: none;
             transition: all 0.2s;
+            resize: none;
+            min-height: 44px;
+            max-height: 120px;
+            overflow-y: auto;
         }
 
         #message-input:focus {
@@ -339,6 +343,162 @@
             padding: 6px 24px 10px;
             background: white;
         }
+
+        .timestamp {
+            font-size: 10px;
+            font-weight: 600;
+            color: #bfae96;
+            margin-top: 2px;
+            padding: 0 48px;
+        }
+
+        .message.user + .timestamp { text-align: right; }
+        .message.assistant + .timestamp { text-align: left; }
+
+        /* Dark mode toggle */
+        .theme-toggle {
+            position: relative;
+            width: 36px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle input { display: none; }
+
+        .toggle-track {
+            position: absolute;
+            inset: 0;
+            background: #e8ddd0;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-track::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        }
+
+        .theme-toggle input:checked + .toggle-track {
+            background: #65a30d;
+        }
+
+        .theme-toggle input:checked + .toggle-track::before {
+            transform: translateX(16px);
+        }
+
+        .theme-label {
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        /* Dark mode styles */
+        body.dark {
+            background: #1a1207;
+            color: #e2d9cc;
+        }
+
+        body.dark header {
+            background: #261e10;
+            border-bottom-color: #3d2e1a;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark .back-btn {
+            background: #261e10;
+            border-color: #4a3820;
+            color: #c4a882;
+        }
+
+        body.dark .back-btn:hover {
+            background: #3d2e1a;
+            border-color: #5a4530;
+            color: #f5e6d0;
+        }
+
+        body.dark .badge {
+            background: #1a2e05;
+            color: #84cc16;
+        }
+
+        body.dark .clear-btn {
+            background: #261e10;
+            border-color: #4a3820;
+            color: #c4a882;
+        }
+
+        body.dark .clear-btn:hover {
+            background: #3d2e1a;
+            border-color: #5a4530;
+            color: #f5e6d0;
+        }
+
+        body.dark .welcome h2 { color: #f5e6d0; }
+        body.dark .welcome p { color: #a08060; }
+
+        body.dark .suggestion {
+            background: #261e10;
+            border-color: #4a3820;
+            color: #c4a882;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        }
+
+        body.dark .suggestion:hover {
+            background: #3d2e1a;
+            border-color: #5a4530;
+            color: #f5e6d0;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+
+        body.dark .message.assistant .bubble {
+            background: #261e10;
+            color: #e2d9cc;
+            border-color: #4a3820;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        }
+
+        body.dark .typing .bubble { color: #a08060; }
+
+        body.dark .timestamp { color: #6b5535; }
+
+        body.dark #input-area {
+            background: #261e10;
+            border-top-color: #3d2e1a;
+        }
+
+        body.dark #message-input {
+            background: #1a1207;
+            border-color: #4a3820;
+            color: #f5e6d0;
+        }
+
+        body.dark #message-input:focus {
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+
+        body.dark #message-input::placeholder { color: #6b5535; }
+
+        body.dark .error {
+            background: #3b1010;
+            border-color: #7f1d1d;
+            color: #fca5a5;
+        }
+
+        body.dark .disclaimer {
+            background: #261e10;
+            color: #6b5535;
+        }
+
+        body.dark .toggle-track { background: #4a3820; }
     </style>
 </head>
 <body>
@@ -353,6 +513,11 @@
         <div style="display: flex; align-items: center; gap: 12px;">
             <span class="badge">POSITIVE REINFORCEMENT</span>
             <button class="clear-btn" onclick="clearChat()">+ New Chat</button>
+            <span class="theme-label" id="theme-icon">☀️</span>
+            <label class="theme-toggle">
+                <input type="checkbox" id="dark-toggle" onchange="toggleDarkMode()">
+                <div class="toggle-track"></div>
+            </label>
         </div>
     </header>
 
@@ -372,7 +537,7 @@
 
     <div id="input-area">
         <form id="input-form" onsubmit="sendMessage(event)">
-            <input type="text" id="message-input" placeholder="Ask about training, behavior, or your pup..." autocomplete="off" />
+            <textarea id="message-input" placeholder="Ask about training, behavior, or your pup... (Shift+Enter for new line)" rows="1"></textarea>
             <button type="submit" id="send-btn">Send</button>
         </form>
     </div>
@@ -393,6 +558,10 @@
 
         function goHome() {
             window.location.href = '/';
+        }
+
+        function formatTime(date) {
+            return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
         }
 
         function addMessage(role, text) {
@@ -420,6 +589,12 @@
             msg.appendChild(avatar);
             msg.appendChild(bubble);
             chatContainer.appendChild(msg);
+
+            const ts = document.createElement('div');
+            ts.className = 'timestamp';
+            ts.textContent = formatTime(new Date());
+            chatContainer.appendChild(ts);
+
             chatContainer.scrollTop = chatContainer.scrollHeight;
             return msg;
         }
@@ -452,12 +627,27 @@
             if (typing) typing.remove();
         }
 
+        function autoResizeInput() {
+            messageInput.style.height = 'auto';
+            messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px';
+        }
+
+        messageInput.addEventListener('input', autoResizeInput);
+
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage(e);
+            }
+        });
+
         async function sendMessage(e) {
             e.preventDefault();
             const text = messageInput.value.trim();
             if (!text) return;
 
             messageInput.value = '';
+            messageInput.style.height = 'auto';
             sendBtn.disabled = true;
             addMessage('user', text);
             showTyping();
@@ -505,6 +695,21 @@
                 chatContainer.appendChild(welcome);
             }
         }
+
+        function toggleDarkMode() {
+            const isDark = document.getElementById('dark-toggle').checked;
+            document.body.classList.toggle('dark', isDark);
+            document.getElementById('theme-icon').textContent = isDark ? '🌙' : '☀️';
+            localStorage.setItem('darkMode', isDark ? '1' : '0');
+        }
+
+        (function restoreDarkMode() {
+            if (localStorage.getItem('darkMode') === '1') {
+                document.body.classList.add('dark');
+                document.getElementById('dark-toggle').checked = true;
+                document.getElementById('theme-icon').textContent = '🌙';
+            }
+        })();
 
         messageInput.focus();
     </script>
