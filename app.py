@@ -48,10 +48,39 @@ def get_client():
     return OpenAI(api_key=api_key)
 
 
+def build_system_prompt():
+    prompt = SYSTEM_PROMPT
+    profile = session.get("dog_profile")
+    if profile and profile.get("name"):
+        parts = [f"\n\nThe user's dog profile:"]
+        parts.append(f"- Name: {profile['name']}")
+        if profile.get("breed"):
+            parts.append(f"- Breed: {profile['breed']}")
+        if profile.get("age"):
+            parts.append(f"- Age: {profile['age']}")
+        if profile.get("notes"):
+            parts.append(f"- Notes: {profile['notes']}")
+        parts.append("Use this info to personalize your advice. Address the dog by name.")
+        prompt += "\n".join(parts)
+    return prompt
+
+
 @app.route("/")
 def home():
     session["conversation"] = []
     return render_template("index.html")
+
+
+@app.route("/profile", methods=["POST"])
+def profile():
+    session["dog_profile"] = {
+        "name": request.json.get("name", "").strip(),
+        "breed": request.json.get("breed", "").strip(),
+        "age": request.json.get("age", "").strip(),
+        "notes": request.json.get("notes", "").strip(),
+    }
+    session.modified = True
+    return jsonify({"status": "saved"})
 
 
 @app.route("/chat", methods=["POST"])
@@ -65,7 +94,7 @@ def chat():
 
     session["conversation"].append({"role": "user", "content": user_message})
 
-    messages = [{"role": "system", "content": SYSTEM_PROMPT}] + session["conversation"]
+    messages = [{"role": "system", "content": build_system_prompt()}] + session["conversation"]
 
     try:
         client = get_client()

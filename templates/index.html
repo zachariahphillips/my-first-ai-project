@@ -136,6 +136,184 @@
             font-weight: 600;
         }
 
+        /* Dog profile card */
+        .dog-card {
+            margin: 8px;
+            padding: 12px;
+            background: #fdf6ee;
+            border: 2px solid #f0e4d4;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dog-card:hover {
+            border-color: #d4a843;
+            background: #fef3c7;
+        }
+
+        .dog-card-icon {
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .dog-card-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dog-card-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #92400e;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .dog-card-detail {
+            font-size: 11px;
+            font-weight: 600;
+            color: #bfae96;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .dog-card-cta {
+            font-size: 12px;
+            font-weight: 700;
+            color: #65a30d;
+        }
+
+        /* Profile page */
+        .profile-page {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 24px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .profile-form {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .profile-form h2 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #92400e;
+            margin-bottom: 4px;
+        }
+
+        .profile-form p {
+            color: #8b7355;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #6b5535;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            background: #fdf6ee;
+            border: 2px solid #e8ddd0;
+            color: #3d2c1e;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #bfae96;
+            font-weight: 400;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #65a30d, #4d7c0f);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: inherit;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(101, 163, 13, 0.25);
+        }
+
+        .save-btn:hover {
+            background: linear-gradient(135deg, #4d7c0f, #3f6212);
+            transform: translateY(-1px);
+        }
+
+        .cancel-btn {
+            background: white;
+            border: 2px solid #e8ddd0;
+            color: #8b7355;
+            padding: 10px 20px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .cancel-btn:hover {
+            background: #fef3c7;
+            border-color: #d4a843;
+            color: #92400e;
+        }
+
+        .form-saved {
+            color: #65a30d;
+            font-weight: 700;
+            font-size: 13px;
+            margin-left: 8px;
+            display: none;
+            align-items: center;
+            gap: 4px;
+        }
+
         /* ---- Main Content ---- */
         .main-content {
             flex: 1;
@@ -576,6 +754,42 @@
         }
 
         body.dark .toggle-track { background: #4a3820; }
+
+        body.dark .dog-card {
+            background: #1a1207;
+            border-color: #4a3820;
+        }
+        body.dark .dog-card:hover { background: #3d2e1a; border-color: #5a4530; }
+        body.dark .dog-card-name { color: #f5e6d0; }
+        body.dark .dog-card-detail { color: #6b5535; }
+        body.dark .dog-card-cta { color: #84cc16; }
+
+        body.dark .profile-form h2 { color: #f5e6d0; }
+        body.dark .profile-form p { color: #a08060; }
+        body.dark .form-group label { color: #c4a882; }
+        body.dark .form-group input,
+        body.dark .form-group textarea {
+            background: #1a1207;
+            border-color: #4a3820;
+            color: #f5e6d0;
+        }
+        body.dark .form-group input:focus,
+        body.dark .form-group textarea:focus {
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+        body.dark .form-group input::placeholder,
+        body.dark .form-group textarea::placeholder { color: #6b5535; }
+        body.dark .cancel-btn {
+            background: #261e10;
+            border-color: #4a3820;
+            color: #c4a882;
+        }
+        body.dark .cancel-btn:hover {
+            background: #3d2e1a;
+            border-color: #5a4530;
+            color: #f5e6d0;
+        }
     </style>
 </head>
 <body>
@@ -585,6 +799,7 @@
         </div>
         <div class="sidebar-label">Chat History</div>
         <div class="chat-list" id="chat-list"></div>
+        <div id="dog-card" class="dog-card" onclick="showProfilePage()"></div>
     </aside>
 
     <div class="main-content">
@@ -624,6 +839,34 @@
             </form>
         </div>
         <div class="disclaimer">AI-generated advice — for serious behavioral issues, consult a certified trainer (CPDT-KA) or veterinary behaviorist.</div>
+
+        <div class="profile-page" id="profile-page" style="display:none;">
+            <div class="profile-form">
+                <h2>Dog Profile</h2>
+                <p>Tell us about your pup so the coach can give personalized advice.</p>
+                <div class="form-group">
+                    <label for="dog-name">Dog's Name</label>
+                    <input type="text" id="dog-name" placeholder="e.g. Darla">
+                </div>
+                <div class="form-group">
+                    <label for="dog-breed">Breed</label>
+                    <input type="text" id="dog-breed" placeholder="e.g. Goldendoodle">
+                </div>
+                <div class="form-group">
+                    <label for="dog-age">Age</label>
+                    <input type="text" id="dog-age" placeholder="e.g. 2 years, 6 months">
+                </div>
+                <div class="form-group">
+                    <label for="dog-notes">Notes</label>
+                    <textarea id="dog-notes" placeholder="Anything the coach should know — rescue history, health issues, fears, favorite treats, etc."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="save-btn" onclick="saveDogProfile()">Save Profile</button>
+                    <button type="button" class="cancel-btn" onclick="closeProfilePage()">Cancel</button>
+                    <span class="form-saved" id="form-saved">Saved!</span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -915,8 +1158,91 @@
             }
         })();
 
+        /* ---- Dog profile ---- */
+        const DOG_PROFILE_KEY = 'pawsitive_dog_profile';
+        const dogCardEl = document.getElementById('dog-card');
+        const profilePage = document.getElementById('profile-page');
+
+        function getDogProfile() {
+            return JSON.parse(localStorage.getItem(DOG_PROFILE_KEY) || 'null');
+        }
+
+        function renderDogCard() {
+            const profile = getDogProfile();
+            if (profile && profile.name) {
+                const detail = [profile.breed, profile.age].filter(Boolean).join(' · ');
+                dogCardEl.innerHTML =
+                    '<span class="dog-card-icon">🐾</span>' +
+                    '<div class="dog-card-info">' +
+                        '<div class="dog-card-name">' + profile.name + '</div>' +
+                        (detail ? '<div class="dog-card-detail">' + detail + '</div>' : '') +
+                    '</div>';
+            } else {
+                dogCardEl.innerHTML =
+                    '<span class="dog-card-icon">🐾</span>' +
+                    '<div class="dog-card-info">' +
+                        '<div class="dog-card-cta">Set up your dog\'s profile</div>' +
+                    '</div>';
+            }
+        }
+
+        function showProfilePage() {
+            const profile = getDogProfile() || {};
+            document.getElementById('dog-name').value = profile.name || '';
+            document.getElementById('dog-breed').value = profile.breed || '';
+            document.getElementById('dog-age').value = profile.age || '';
+            document.getElementById('dog-notes').value = profile.notes || '';
+
+            chatContainer.style.display = 'none';
+            document.getElementById('input-area').style.display = 'none';
+            document.querySelector('.disclaimer').style.display = 'none';
+            profilePage.style.display = 'flex';
+            document.getElementById('form-saved').style.display = 'none';
+        }
+
+        function closeProfilePage() {
+            profilePage.style.display = 'none';
+            chatContainer.style.display = 'flex';
+            document.getElementById('input-area').style.display = 'block';
+            document.querySelector('.disclaimer').style.display = 'block';
+        }
+
+        function saveDogProfile() {
+            const profile = {
+                name: document.getElementById('dog-name').value.trim(),
+                breed: document.getElementById('dog-breed').value.trim(),
+                age: document.getElementById('dog-age').value.trim(),
+                notes: document.getElementById('dog-notes').value.trim()
+            };
+            localStorage.setItem(DOG_PROFILE_KEY, JSON.stringify(profile));
+            renderDogCard();
+
+            fetch('/profile', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(profile)
+            });
+
+            const saved = document.getElementById('form-saved');
+            saved.style.display = 'inline-flex';
+            setTimeout(() => { saved.style.display = 'none'; }, 2000);
+        }
+
+        function sendDogProfileToServer() {
+            const profile = getDogProfile();
+            if (profile && profile.name) {
+                fetch('/profile', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(profile)
+                });
+            }
+        }
+
         /* ---- Init ---- */
         renderSidebar();
+        renderDogCard();
+        sendDogProfileToServer();
         messageInput.focus();
     </script>
 </body>
