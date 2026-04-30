@@ -1,11 +1,11 @@
 # My First AI Project
 
-A beginner-friendly Python project to explore AI development using the OpenAI API.
+A beginner-friendly Python project to explore AI development using the Anthropic Claude API.
 
 ## What this does
 
-This is a simple command-line chatbot that uses OpenAI's GPT model to have conversations.
-You type a message, the AI responds, and it remembers the conversation history.
+This is a simple command-line chatbot that uses Anthropic's Claude model to have conversations.
+You type a message, Claude responds, and it remembers the conversation history.
 
 ## Setup
 
@@ -14,15 +14,15 @@ You type a message, the AI responds, and it remembers the conversation history.
    pip3 install -r requirements.txt
    ```
 
-2. Get an OpenAI API key:
-   - Go to https://platform.openai.com/signup
+2. Get an Anthropic API key:
+   - Go to https://console.anthropic.com/
    - Create an account and add a payment method
-   - Go to https://platform.openai.com/api-keys
-   - Click "Create new secret key" and copy it
+   - Go to https://console.anthropic.com/settings/keys
+   - Click "Create Key" and copy it
 
 3. Set your API key:
    ```bash
-   export OPENAI_API_KEY="your-key-here"
+   export ANTHROPIC_API_KEY="your-key-here"
    ```
 
 4. Run the chatbot:
@@ -32,6 +32,7 @@ You type a message, the AI responds, and it remembers the conversation history.
 
 ## Learning Resources
 
-- [OpenAI API Docs](https://platform.openai.com/docs)
+- [Anthropic API Docs](https://docs.anthropic.com/)
+- [Claude Prompt Engineering Guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering)
 - [Python Beginner Guide](https://wiki.python.org/moin/BeginnersGuide)
 - [Git Handbook](https://guides.github.com/introduction/git-handbook/)
