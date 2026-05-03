@@ -74,5 +74,3 @@ my-first-ai-project/
 │   └── index.html      # Chat UI
 └── README.md
 ```
-
-
