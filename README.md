@@ -1,4 +1,4 @@
-# Pawsitive Coach - AI Dog Training Assistant 
+# Pawsitive Coach - AI Dog Training Assistant
 
 An AI-powered dog training coach that specializes in **positive reinforcement** methods and building a strong, trusting relationship between you and your dog.
 
