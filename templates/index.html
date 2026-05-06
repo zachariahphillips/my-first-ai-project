@@ -588,6 +588,44 @@
             transform: none;
         }
 
+        .char-counter {
+            max-width: 700px;
+            margin: 8px auto 0;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            transition: all 0.2s;
+        }
+
+        .char-counter.warn {
+            display: flex;
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+
+        .char-counter.danger {
+            display: flex;
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .char-counter-msg {
+            flex: 1;
+            font-weight: 600;
+        }
+
+        .char-counter-num {
+            flex-shrink: 0;
+            font-variant-numeric: tabular-nums;
+        }
+
         .error {
             background: #fef2f2;
             border: 2px solid #fecaca;
@@ -844,6 +882,18 @@
         body.dark .copy-btn:hover { background: #3d2e1a; color: #f5e6d0; }
         body.dark .copy-btn.copied { color: #84cc16; }
         body.dark .copy-btn.copied:hover { background: #1a2e05; color: #a3e635; }
+
+        body.dark .char-counter.warn {
+            background: #3d2e1a;
+            color: #fde68a;
+            border-color: #5a4530;
+        }
+
+        body.dark .char-counter.danger {
+            background: #3b1010;
+            color: #fca5a5;
+            border-color: #7f1d1d;
+        }
     </style>
 </head>
 <body>
@@ -891,6 +941,10 @@
                 <textarea id="message-input" placeholder="Ask about training, behavior, or your pup... (Shift+Enter for new line)" rows="1"></textarea>
                 <button type="submit" id="send-btn">Send</button>
             </form>
+            <div id="char-counter" class="char-counter">
+                <span class="char-counter-msg" id="char-counter-msg"></span>
+                <span class="char-counter-num" id="char-counter-num"></span>
+            </div>
         </div>
         <div class="disclaimer">AI-generated advice — for serious behavioral issues, consult a certified trainer (CPDT-KA) or veterinary behaviorist.</div>
 
@@ -1181,12 +1235,40 @@
         }
 
         /* ---- Input handling ---- */
+        const CHAR_LIMIT = 2000;
+        const CHAR_WARN_THRESHOLD = 1400;
+        const charCounter = document.getElementById('char-counter');
+        const charCounterMsg = document.getElementById('char-counter-msg');
+        const charCounterNum = document.getElementById('char-counter-num');
+
         function autoResizeInput() {
             messageInput.style.height = 'auto';
             messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px';
         }
 
-        messageInput.addEventListener('input', autoResizeInput);
+        function updateCharCounter() {
+            const len = messageInput.value.length;
+
+            if (len < CHAR_WARN_THRESHOLD) {
+                charCounter.className = 'char-counter';
+                return;
+            }
+
+            charCounterNum.textContent = `${len.toLocaleString()} / ${CHAR_LIMIT.toLocaleString()}`;
+
+            if (len > CHAR_LIMIT) {
+                charCounter.className = 'char-counter danger';
+                charCounterMsg.textContent = "Whoa, that's a lot of fetch! Try trimming it down 🐾";
+            } else {
+                charCounter.className = 'char-counter warn';
+                charCounterMsg.textContent = "Getting long — shorter messages get more focused answers 🐾";
+            }
+        }
+
+        messageInput.addEventListener('input', () => {
+            autoResizeInput();
+            updateCharCounter();
+        });
 
         messageInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
@@ -1202,6 +1284,7 @@
 
             messageInput.value = '';
             messageInput.style.height = 'auto';
+            updateCharCounter();
             sendBtn.disabled = true;
             addMessage('user', text);
             showTyping();
