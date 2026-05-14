@@ -605,18 +605,17 @@
             color: #92400e;
         }
 
-        .bubble.skeleton {
+        .message.assistant .bubble.skeleton {
             width: 220px;
             height: 44px;
             padding: 0;
             border: 2px solid transparent;
             box-shadow: none;
-            background-color: #e0d2bd;
-            background-image: linear-gradient(
+            background: linear-gradient(
                 90deg,
-                #e0d2bd 0%,
-                #fffaee 50%,
-                #e0d2bd 100%
+                #c8b894 0%,
+                #ffffff 50%,
+                #c8b894 100%
             );
             background-size: 200% 100%;
             background-position: 100% 0;
@@ -931,14 +930,15 @@
         body.dark .message.assistant .bubble a { color: #fbbf24; }
         body.dark .message.assistant .bubble a:hover { color: #fde68a; }
 
-        body.dark .bubble.skeleton {
-            background-color: #3d2e1a;
-            background-image: linear-gradient(
+        body.dark .message.assistant .bubble.skeleton {
+            background: linear-gradient(
                 90deg,
                 #3d2e1a 0%,
-                #6b5535 50%,
+                #8b6f4e 50%,
                 #3d2e1a 100%
             );
+            background-size: 200% 100%;
+            background-position: 100% 0;
         }
 
         body.dark .timestamp { color: #6b5535; }
