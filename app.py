@@ -4,6 +4,7 @@ A Flask web app powered by OpenAI's GPT-4o-mini, specializing in
 positive reinforcement dog training and relationship building.
 """
 
+import json
 import os
 
 from dotenv import load_dotenv
@@ -45,6 +46,14 @@ SYSTEM_PROMPT = (
     "- Use numbered lists for step-by-step training plans.\n"
     "- Keep paragraphs short (2-4 sentences) with line breaks between them.\n"
     "- Don't over-format short, conversational replies — markdown should help, not clutter."
+    "\n\n"
+    "Response format (IMPORTANT):\n"
+    "Always respond with a single JSON object containing exactly these two keys:\n"
+    '- "reply": your full answer to the user as a string (markdown is fine inside the string).\n'
+    '- "followups": an array of EXACTLY 2 short follow-up questions the user might naturally '
+    "ask next, written from the user's perspective (first-person, e.g. "
+    "\"What if she pulls on the leash anyway?\"). Each follow-up must be under 70 characters "
+    "and specifically tied to what you just discussed."
 )
 
 
@@ -109,12 +118,29 @@ def chat():
             model="gpt-4o-mini",
             messages=messages,
             temperature=0.7,
-            max_tokens=500,
+            max_tokens=700,
+            response_format={"type": "json_object"},
         )
-        reply = response.choices[0].message.content
+        raw = response.choices[0].message.content or "{}"
+        try:
+            parsed = json.loads(raw)
+            reply = (parsed.get("reply") or "").strip()
+            raw_followups = parsed.get("followups") or []
+            followups = [
+                f.strip() for f in raw_followups
+                if isinstance(f, str) and f.strip()
+            ][:2]
+        except json.JSONDecodeError:
+            reply = raw
+            followups = []
+
+        if not reply:
+            session["conversation"].pop()
+            return jsonify({"error": "Empty AI response"}), 500
+
         session["conversation"].append({"role": "assistant", "content": reply})
         session.modified = True
-        return jsonify({"reply": reply})
+        return jsonify({"reply": reply, "followups": followups})
     except Exception as e:
         session["conversation"].pop()
         return jsonify({"error": str(e)}), 500

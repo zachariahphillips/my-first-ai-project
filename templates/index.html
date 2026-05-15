@@ -788,6 +788,50 @@
             margin-top: 0;
         }
 
+        .followups {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+            padding: 0 48px;
+            max-width: 700px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .followup-chip {
+            background: white;
+            border: 1.5px solid #e8ddd0;
+            color: #6b5535;
+            padding: 8px 14px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: inherit;
+            transition: all 0.15s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+            text-align: left;
+        }
+
+        .followup-chip:hover {
+            background: #fef3c7;
+            border-color: #d4a843;
+            color: #92400e;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(180, 83, 9, 0.1);
+        }
+
+        .followup-chip::before {
+            content: '→ ';
+            color: #bfae96;
+            font-weight: 600;
+            margin-right: 2px;
+        }
+
+        .followup-chip:hover::before {
+            color: #d4a843;
+        }
+
         .copy-btn {
             background: none;
             border: none;
@@ -929,6 +973,23 @@
         body.dark .message.assistant .bubble strong { color: #fde68a; }
         body.dark .message.assistant .bubble a { color: #fbbf24; }
         body.dark .message.assistant .bubble a:hover { color: #fde68a; }
+
+        body.dark .followup-chip {
+            background: #261e10;
+            border-color: #4a3820;
+            color: #c4a882;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark .followup-chip:hover {
+            background: #3d2e1a;
+            border-color: #5a4530;
+            color: #f5e6d0;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark .followup-chip::before { color: #6b5535; }
+        body.dark .followup-chip:hover::before { color: #c4a882; }
 
         body.dark .message.assistant .bubble.skeleton {
             background: linear-gradient(
@@ -1117,7 +1178,8 @@
             }
 
             .timestamp,
-            .message-footer {
+            .message-footer,
+            .followups {
                 padding: 0 44px;
             }
 
@@ -1395,6 +1457,7 @@
             if (!chat) return;
             currentChatId = id;
             closeProfilePage();
+            clearFollowups();
             chatContainer.innerHTML = '';
             welcome.style.display = 'none';
 
@@ -1487,6 +1550,33 @@
                 chatContainer.appendChild(ts);
             }
 
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function clearFollowups() {
+            document.querySelectorAll('.followups').forEach(el => el.remove());
+        }
+
+        function renderFollowups(followups) {
+            if (!Array.isArray(followups) || followups.length === 0) return;
+
+            const container = document.createElement('div');
+            container.className = 'followups';
+
+            followups.forEach(text => {
+                const chip = document.createElement('button');
+                chip.className = 'followup-chip';
+                chip.type = 'button';
+                chip.textContent = text;
+                chip.onclick = () => {
+                    if (sendBtn.disabled) return;
+                    messageInput.value = text;
+                    sendMessage(new Event('submit'));
+                };
+                container.appendChild(chip);
+            });
+
+            chatContainer.appendChild(container);
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
@@ -1621,6 +1711,7 @@
             messageInput.style.height = 'auto';
             updateCharCounter();
             sendBtn.disabled = true;
+            clearFollowups();
             addMessage('user', text);
             showTyping();
 
@@ -1640,6 +1731,7 @@
                     chatContainer.appendChild(err);
                 } else {
                     addMessage('assistant', data.reply);
+                    renderFollowups(data.followups);
                 }
             } catch (err) {
                 removeTyping();
