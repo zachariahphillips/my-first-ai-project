@@ -1426,15 +1426,13 @@
 
         /* ---- Chat management ---- */
         function startNewChat() {
-            currentChatId = null;
-            fetch('/clear', { method: 'POST' });
             showWelcome();
-            renderSidebar();
-            closeSidebar();
         }
 
         function showWelcome() {
             currentChatId = null;
+            fetch('/clear', { method: 'POST' });
+            clearFollowups();
             closeProfilePage();
             chatContainer.innerHTML = '';
             chatContainer.appendChild(welcome);
