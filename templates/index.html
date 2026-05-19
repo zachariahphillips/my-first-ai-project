@@ -1664,6 +1664,12 @@
         const charCounterMsg = document.getElementById('char-counter-msg');
         const charCounterNum = document.getElementById('char-counter-num');
 
+        let isAwaitingResponse = false;
+
+        function applySendDisabled() {
+            sendBtn.disabled = isAwaitingResponse || messageInput.value.length > CHAR_LIMIT;
+        }
+
         function autoResizeInput() {
             messageInput.style.height = 'auto';
             messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px';
@@ -1671,6 +1677,7 @@
 
         function updateCharCounter() {
             const len = messageInput.value.length;
+            applySendDisabled();
 
             if (len < CHAR_WARN_THRESHOLD) {
                 charCounter.className = 'char-counter';
@@ -1704,11 +1711,12 @@
             e.preventDefault();
             const text = messageInput.value.trim();
             if (!text) return;
+            if (text.length > CHAR_LIMIT) return;
 
             messageInput.value = '';
             messageInput.style.height = 'auto';
+            isAwaitingResponse = true;
             updateCharCounter();
-            sendBtn.disabled = true;
             clearFollowups();
             addMessage('user', text);
             showTyping();
@@ -1739,7 +1747,8 @@
                 chatContainer.appendChild(errEl);
             }
 
-            sendBtn.disabled = false;
+            isAwaitingResponse = false;
+            applySendDisabled();
             messageInput.focus();
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
